@@ -17,7 +17,6 @@ $CodeClasse = $_POST["CodeClasse"];
 $CodeMatiere = $_POST["CodeMatiere"];
 $Justifier = $_POST["Justifier"];
 
-// Validate DateAbsence format
 if (!DateTime::createFromFormat('Y-m-d', $DateAbsence)) {
     die("Invalid date format for DateAbsence!");
 }
@@ -48,7 +47,7 @@ try {
         'TypeSeance' => $TypeSeance,
         'CodeClasse' => $CodeClasse,
         'CodeMatiere' => $CodeMatiere,
-        'Justifier' => $Justifier
+        'Justifier' => $Justifier // Make sure the column name in your database matches 'Justifier'
     ];
 
     $n = $stmt->execute($data);
@@ -57,7 +56,7 @@ try {
         print_r($stmt->errorInfo());
     } else {
         echo "Mise à jour réussie";
-        header("location:afficher.php");
+        header("location: afficher.php");
     }
 } catch (PDOException $e) {
     die("Une erreur s'est produite lors de la mise à jour: " . $e->getMessage());   

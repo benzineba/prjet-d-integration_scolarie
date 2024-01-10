@@ -42,7 +42,7 @@ try {
         die("Insertion échouée. SQLSTATE: {$errorInfo[0]}. Error code: {$errorInfo[1]}. Error message: {$errorInfo[2]}");
     } else {
         echo "Ajout avec succès";
-        header("location: afficher.php");
+        header("Location: afficher.php");
     }
 } catch (PDOException $e) {
     die("Une erreur s'est produite lors de l'insertion: " . $e->getMessage());

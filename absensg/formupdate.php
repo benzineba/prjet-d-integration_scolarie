@@ -121,7 +121,7 @@
             </div>
             <div class="form-group">
                 <label for="Justifier">Justifier:</label>
-                <input type="text" class="form-control" maxlength="10" name="Justifier" value="<?php echo htmlspecialchars($data['Justifier']); ?>">
+                <input type="text" class="form-control" maxlength="2" name="Justifier" value="<?php echo htmlspecialchars($data['Justifier']); ?>">
             </div>
             <button type="submit" class="btn btn-primary">Modifier</button>
         </form>

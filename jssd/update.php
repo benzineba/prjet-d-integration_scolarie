@@ -17,7 +17,7 @@ $NBCol = $_POST["nbcollones"];
 $NBSurv = $_POST["nbsurvillance"];
 $Type = $_POST["Type"];
 $Disponible = $_POST["Disponible"];
-$CodeDepartement = $_POST["CodeDepartement"];
+$CodeDepartement = $_POST["Departement"];
 
 try {
     $conn = new PDO($dsn, $user, $pw);

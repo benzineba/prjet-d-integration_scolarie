@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste Rattrapage</title>
+    <title>Liste Salles</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
@@ -19,31 +19,26 @@
     try {
         $conn = new PDO($dsn, $user, $pw);
 
-        $filterField = isset($_GET['filterField']) ? $_GET['filterField'] : 'NumRatV'; 
+        $filterField = isset($_GET['filterField']) ? $_GET['filterField'] : 'Jour'; 
         $filterValue = isset($_GET['filterValue']) ? $_GET['filterValue'] : ''; 
 
-        $requete = "SELECT * FROM ratvol WHERE $filterField LIKE '%$filterValue%'";
+        $requete = "SELECT * FROM jssd WHERE $filterField LIKE '%$filterValue%'";
 
         $resultat = $conn->query($requete);
 
-        if ($resultat->rowCount() == 0) {
-            echo "La table ne contient aucun rattrapage...!<br>";
-        } else {
+        
+        
             echo "<form method='get' action=''>";
             echo "<div class='form-row align-items-center'>";
             echo "<div class='col-auto'>";
             echo "<label class='sr-only' for='filterField'>Filter Field</label>";
             echo "<select class='form-control mb-2' name='filterField'>";
-            echo "<option value='NumRatV' " . ($filterField === 'NumRatV' ? 'selected' : '') . ">NumRatV</option>";
-            echo "<option value='MatProf' " . ($filterField === 'MatProf' ? 'selected' : '') . ">MatProf</option>";
-            echo "<option value='DateRat' " . ($filterField === 'DateRat' ? 'selected' : '') . ">DateRat</option>";
-            echo "<option value='Seance' " . ($filterField === 'Seance' ? 'selected' : '') . ">Seance</option>";
-            echo "<option value='Session' " . ($filterField === 'Session' ? 'selected' : '') . ">Session</option>";
-            echo "<option value='Salle' " . ($filterField === 'Salle' ? 'selected' : '') . ">Salle</option>";
             echo "<option value='Jour' " . ($filterField === 'Jour' ? 'selected' : '') . ">Jour</option>";
-            echo "<option value='CodeClasse' " . ($filterField === 'CodeClasse' ? 'selected' : '') . ">CodeClasse</option>";
-            echo "<option value='CodeMatiere' " . ($filterField === 'CodeMatiere' ? 'selected' : '') . ">CodeMatiere</option>";
-            echo "<option value='Etat' " . ($filterField === 'Etat' ? 'selected' : '') . ">Etat</option>";
+            echo "<option value='Seance' " . ($filterField === 'Seance' ? 'selected' : '') . ">Seance</option>";
+            echo "<option value='Salle' " . ($filterField === 'Salle' ? 'selected' : '') . ">Salle</option>";
+            echo "<option value='NDist' " . ($filterField === 'NDist' ? 'selected' : '') . ">NDist</option>";
+            echo "<option value='Groupe' " . ($filterField === 'Groupe' ? 'selected' : '') . ">Groupe</option>";
+            
             echo "</select>";
             echo "</div>";
             echo "<div class='col-auto'>";
@@ -56,21 +51,16 @@
             echo "</div>";
             echo "</form>";
 
-            echo "<h1>Liste Rattrapage</h1>";
-            echo "<a href='formajout.php' class='btn btn-info mb-3' id='ajoutButton'>Ajout Rattrapage</a>";
+            echo "<h1>Liste Jssd</h1>";
+            echo "<a href='formajout.php' class='btn btn-info mb-3' id='ajoutButton'>Ajout JSSD</a>";
             echo "<table class='table table-sm'>";
             echo "<thead class='thead-dark'>";
             echo "<tr>";
-            echo "<th>NumRatV</th>";
-            echo "<th>MatProf</th>";
-            echo "<th>DateRat</th>";
-            echo "<th>Seance</th>";
-            echo "<th>Session</th>";
-            echo "<th>Salle</th>";
             echo "<th>Jour</th>";
-            echo "<th>CodeClasse</th>";
-            echo "<th>CodeMatiere</th>";
-            echo "<th>Etat</th>";
+            echo "<th>Seance</th>";
+            echo "<th>Salle</th>";
+            echo "<th>NDist</th>";
+            echo "<th>Groupe</th>";
             echo "<th class='action-elements'>Action</th>";
             echo "</tr>";
             echo "</thead>";
@@ -78,20 +68,15 @@
 
             while ($ligne = $resultat->fetch(PDO::FETCH_ASSOC)) {
                 echo "<tr>";
-                echo "<td>" . $ligne['NumRatV'] . "</td>";
-                echo "<td>" . $ligne['MatProf'] . "</td>";
-                $date = new DateTime($ligne['DateRat']);
-                echo "<td>" . $date->format('d-m-y') . "</td>";
-                echo "<td>" . $ligne['Seance'] . "</td>";
-                echo "<td>" . $ligne['Session'] . "</td>";
-                echo "<td>" . $ligne['Salle'] . "</td>";
                 echo "<td>" . $ligne['Jour'] . "</td>";
-                echo "<td>" . $ligne['CodeClasse'] . "</td>";
-                echo "<td>" . $ligne['CodeMatiere'] . "</td>";
-                echo "<td>" . $ligne['Etat'] . "</td>";
+                echo "<td>" . $ligne['Seance'] . "</td>";
+        
+                echo "<td>" . $ligne['Salle'] . "</td>";
+                echo "<td>" . $ligne['NDist'] . "</td>";
+                echo "<td>" . $ligne['Groupe'] . "</td>";
                 echo "<td class='action-elements'>";
-                echo "<a href='formupdate.php?NumRatV=" . $ligne['NumRatV'] . "' class='btn btn-primary btn-sm'>Update</a> ";
-                echo "<a href='delete.php?NumRatV=" . $ligne['NumRatV'] . "' class='btn btn-danger btn-sm'>Delete</a> ";
+                echo "<a href='formupdate.php?Jour=" . $ligne['Jour'] . "' class='btn btn-primary btn-sm'>Update</a> ";
+                echo "<a href='delete.php?Jour=" . $ligne['Jours'] . "' class='btn btn-danger btn-sm'>Delete</a> ";
                 echo "<button onclick='printDetails(" . json_encode($ligne) . ");' class='btn btn-info btn-sm'>Print Details</button>";
                 echo "</td>";
                 echo "</tr>";
@@ -102,7 +87,7 @@
             echo "<div class='d-flex justify-content-center mt-3' id='printButtonContainer'>";
             echo "<button id='printButton' onclick='printDocument();' class='btn btn-success'>Print</button>";
             echo "</div>";
-        }
+        
     } catch (PDOException $e) {
         die($e->getMessage());
     }
@@ -142,7 +127,7 @@
             newWin.document.write(`
             <html>
             <head>
-                <title>Details of Rattrapage ID ${details.NumRatV}</title>
+                <title>Details JSSD</title>
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                 <style>
                     body {
@@ -165,17 +150,12 @@
             </head>
             <body>
                 <div class="details-container">
-                    <h1>Rattrapage</h1>
-                    <p><strong>ID:</strong> ${details.NumRatV}</p>
-                    <p><strong>MatProf:</strong> ${details.MatProf}</p>
-                    <p><strfong>DateRat:</strfong> ${new Date(details.DateRat).toLocaleDateString()}</p>
-                    <p><strong>Seance:</strong> ${details.Seance}</p>
-                    <p><strong>Session:</strong> ${details.Session}</p>
-                    <p><strong>Salle:</strong> ${details.Salle}</p>
+                    <h1>Salle</h1>
                     <p><strong>Jour:</strong> ${details.Jour}</p>
-                    <p><strong>CodeClasse:</strong> ${details.CodeClasse}</p>
-                    <p><strong>CodeMatiere:</strong> ${details.CodeMatiere}</p>
-                    <p><strong>Etat:</strong> ${details.Etat}</p>
+                    <p><strong>Seance:</strong> ${details.Seance}</p>
+                    <p><strong>Salle:</strong> ${details.Salle}</p>
+                    <p><strong>NDist:</strong> ${details.NDist}</p>
+                    <p><strong>Groupe:</strong> ${details.Groupe}</p>
                 </div>
             </body>
             </html>`);
